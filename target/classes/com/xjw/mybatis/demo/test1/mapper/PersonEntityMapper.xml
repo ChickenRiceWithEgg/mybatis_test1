@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+	<!-- 映射文件的namespace+<select id="">属性中内容，等于一个statement，用于在SqlSession的select方法中当第一个参数 -->
+	<!-- 这里的namespace是当前映射文件的地址  -->
+<mapper namespace="com.xjw.mybatis.demo.test1.mapper.PersonEntityMapper">
+	
+	<resultMap type="com.xjw.mybatis.demo.test1.entity.PersonEntity" id="PersonEntity">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- 查询所有用户### -->
+	<select id="queryAll" resultType="com.xjw.mybatis.demo.test1.entity.PersonEntity">
+		select id,name from t_person
+	</select>
+	
+	<!-- 插入一条记录### -->
+	<!-- parameterType:表示输入参数的类型，这里是一个java实体类 -->
+	<insert id="insert" parameterType="com.xjw.mybatis.demo.test1.entity.PersonEntity">
+		insert into t_person(id, name) values (#{id},#{name});  
+		<!-- #{id}里面的id是PersonEntity中的id属性 -->
+		<!-- #{name}里面的name是PersonEntity中的name属性 -->
+		<!-- 所以与属性名需要对应 -->
+	</insert>
+ 	
+ 	<!-- 按ID查找用户### -->
+	<!-- sql语句中的#{}表示占位符，如果输入参数 是简单类型，则#{}中的参数名可以是任意的。 -->
+	<!-- resultType:指定sql输出结果的所映射的java对象类型，select指定resultType将单条记录映射成java对象
+		单条多条都一样-->
+	<select id="findUserById" parameterType="int" resultType="com.xjw.mybatis.demo.test1.entity.PersonEntity">
+		SELECT id,name FROM t_person WHERE id=#{id}
+	</select>
+	
+	<!-- 按名字查找用户### -->
+	<select id="findUserByName" parameterType="java.lang.String" resultType="com.xjw.mybatis.demo.test1.entity.PersonEntity">
+		SELECT id,name FROM t_person WHERE name LIKE #{expression}
+	</select>
+	
+	<!-- 根据id删除用户 -->
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		DELETE FROM t_person WHERE id=#{id}	
+	</delete>	
+
+	<!-- 根据id更新用户 -->
+	<update id="updateById" parameterType="com.xjw.mybatis.demo.test1.entity.PersonEntity">
+		UPDATE t_person SET name=#{name} WHERE id=#{id}  
+		<!-- #{id}这里面的id是PersonEntity中的id属性 -->
+		<!-- 所以与属性名需要对应 -->
+	</update>
+		
+</mapper>

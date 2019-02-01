@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  
+<configuration>
+	
+	<!--使用property子元素将数据库连接的相关配置进行改写 -->
+	<!--
+	<properties>
+		<property name="database.driver" value="com.mysql.jdbc.Driver"/>
+		<property name="database.url" value="jdbc:mysql://localhost:3306/mydb2"/>
+		<property name="database.username" value="root"/>
+		<property name="database.password" value="jingwei"/>
+	</properties>
+ 	-->
+	
+	<!--使用properties配置文件配置mybatis-config.xml中的<properties>-->
+	<properties resource="jdbc.properties"/>
+	
+	
+	<!--全局别名设置，在映射文件中只需写别名，而不必写出整个类路径-->
+	<typeAliases>
+		<typeAlias type="com.xjw.mybatis.demo.test1.entity.PersonEntity" alias="PersonEntity"/>
+	</typeAliases>
+	
+	<!--批量定义别名,不用手动定义别名，自动将包中所有类的别名定义为对应的类名，大写小写都可以 -->
+	<!-- 
+	<typeAliases>
+		<package name="com.xjw.mybatis.demo.test1.entity"/>
+	<typeAliases>
+	 -->
+	
+	
+	<!-- 和spring整合之后environments的配置将废除 -->
+	<environments default="development">
+		<environment id="development">
+	<!-- 使用jdbc事务管理 -->
+			<transactionManager type="JDBC"/>
+	<!-- 数据库连接池 -->		
+			<dataSource type="POOLED">
+				<property name="driver" value="${database.driver}"/>			
+				<property name="url" value="${database.url}"/>
+				<property name="username" value="${database.username}"/>
+				<property name="password" value="${database.password}"/>
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<!-- 加载映射文件 -->
+	<mappers>
+		<mapper resource="com/xjw/mybatis/demo/test1/mapper/PersonEntityMapper.xml"/>
+		<mapper resource="com/xjw/mybatis/demo/test2/mapper/PersonEntityMapper.xml"/>
+	</mappers>
+
+</configuration>

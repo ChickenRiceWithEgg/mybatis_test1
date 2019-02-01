@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 通过mapper代理开发DAO -->
+<!-- 首先映射文件的namespace等于userMapper接口（即原始方法中的DAO接口） -->
+<mapper namespace="com.xjw.mybatis.demo.test2.mapper.UserMapper">
+	<resultMap type="com.xjw.mybatis.demo.test1.entity.PersonEntity" id="PersonEntity">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+	</resultMap>
+	<insert id="insert" parameterType="com.xjw.mybatis.demo.test1.entity.PersonEntity">
+		insert into t_person(id, name) values (#{id}, #{name}); 	
+	</insert>
+</mapper>
